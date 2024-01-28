@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 .card img {
     width: 100%; /* جعل الصور تمتلئ العرض داخل البطاقة */
@@ -22,6 +23,57 @@
 }
 
 
+        #banner {
+            background-color: #3498db;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: #fff;
+        }
+
+        #menu-btn {
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        #menu {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            background-color: #3498db;
+            transition: height 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            margin: 10px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+
+        #menu.show {
+            height: 150px;
+        }
+
+        #menu.show a {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
 </style>
 
@@ -33,9 +85,21 @@
 <body>
 <center>
 
-    <div id="app" class="container mt-4">
-       <center> <h1 class="mb-4">𝓕𝓷 ᯤ معسكر ⅔ المنهج </h1></center>
+  
+<div id="banner">
+    <div>
+        <h1>كورساتي - معسكر ⅔ المنهج</h1>
+    </div>
+    <button id="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+</div>
 
+<div id="menu">
+    <a href="../"><i class="fas fa-home"></i> الرئيسية</a>
+    <a href="#"><i class="fas fa-book"></i> الكورسات</a>
+    <a href="#"><i class="fas fa-envelope"></i> تواصل معنا</a>
+</div>
+<br><br><br>
+<div id="app">
         <div v-if="videos.length > 0">
             <div v-for="(video, index) in videos" :key="index" class="card mb-3">
                 <div class="card-body">
@@ -70,8 +134,16 @@
             </div>
         </div>
     </div>
+</div>
 
+</center>
     <script>
+
+          function toggleMenu() {
+        var menu = document.getElementById('menu');
+        menu.classList.toggle('show');
+    }
+
         new Vue({
             el: '#app',
             data: {
@@ -115,6 +187,8 @@ videos: [
                 }
             }
         });
+
+
     </script>
 </center>
 </body>
