@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝓕𝓷 Courses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+<style>
+.card img {
+    width: 100%; /* جعل الصور تمتلئ العرض داخل البطاقة */
+    height: auto; /* الحفاظ على تناسب الصورة */
+}
+.video-container iframe {
+    width: 100%; /* جعل عنصر iframe يمتلئ العرض داخل الحاوية */
+    height: 400px; /* يمكنك تغيير هذا الرقم حسب احتياجاتك */
+}
+
+
+
+</style>
+
+
+
+
+</head>
+
+<body>
+<center>
+
+    <div id="app" class="container mt-4">
+       <center> <h1 class="mb-4">𝓕𝓷 ᯤ معسكر ⅔ المنهج </h1></center>
+
+        <div v-if="videos.length > 0">
+            <div v-for="(video, index) in videos" :key="index" class="card mb-3">
+                <div class="card-body">
+
+                    <img :src="'https://img.youtube.com/vi/' + getVideoId(video.url) + '/default.jpg'" alt="Thumbnail"
+                        class="img-fluid mb-3">
+                    <!-- إضافة عنصر لعرض اسم الفيديو -->
+                    <h3 class="card-title">{{ video.name || 'اسم الفيديو' }}</h3>
+                    <p class="card-text">{{ video.description || 'وصف الفيديو' }}</p>
+                    <!-- استخدام النقر لفتح الفيديو في صفحة منفصلة -->
+                    <a @click.prevent="openVideo(video)" href="#" class="btn btn-primary">عرض الفيديو</a>
+                            </div>
+            </div>
+        </div>
+
+        <div v-else>
+            <p>لا توجد نتائج</p>
+        </div>
+
+        <!-- صفحة عرض الفيديو -->
+        <div v-if="selectedVideo" class="modal fade" id="videoModal" tabindex="-1" role="dialog"
+            aria-labelledby="videoModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="video-container">
+                            <iframe :src="embedVideo(getVideoId(selectedVideo.url))" frameborder="0"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+videos: [
+    { name: 'إزاي تستفيد من معسكر مراجعة تلتين المنهج', url: "https://youtu.be/-Inr6l2pOWo", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'لو متعرفش حاجة في الدعامة والحركة إسمع ده- Level (1) سبورة تفاعية', url: "https://youtu.be/gOtJx5gTjw0", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'لو متعرفش حاجة في الدعامة والحركة إسمع ده- Level (1) سبورة سنتر (تفاعل ناار من الطلبة)', url: "https://youtu.be/utCj6gF74CQ", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'الفيديو الأهم - زتونة الدعامة والحركة Level (2)', url: "https://youtu.be/Z7M72OsulTM", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'حل بنك أسئلة الدعامة والحركة- المعسكر', url: "https://youtu.be/dgOLosdjzNs", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'حل اختبار على الدعامة والحركة - المعسكر', url: "https://youtu.be/8uQBC1E26Yc", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'حل أسئلة السنوات السابقة', url: "https://youtu.be/3X69ZBxV5vw", description: 'المعسكر - الدعامة و الحركة' },
+    { name: 'لو متعرفش حاجة في الهرمونات إسمع ده- Level (1) سبورة تفاعية', url: "https://youtu.be/pkLjThgjleg", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'لو متعرفش حاجة في الهرمونات إسمع ده- Level (1) سبورة سنتر (تفاعل ناار من الطلبة)', url: "https://youtu.be/KRDlPX45IKE", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'الفيديو الأهم - زتونة الهرمونات - Level (2)', url: "https://youtu.be/xwTXnvs63Rc", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'حل بنك أسئلة التنسيق الهرمونى - المعسكر', url: "https://youtu.be/xBhs-Vqg02s", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'حل اختبار على الهرمونات - المعسكر', url: "https://youtu.be/V06CG14_uDI", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'حل أسئلة السنوات السابقة على التنسيق الهرموني', url: "https://youtu.be/azME40HbH1Y", description: 'المعسكر - التنسيق الهرمونى' },
+    { name: 'لو متعرفش حاجة في التكاثر ما قبل الانسان إسمع ده- Level (1) سبورة تفاعية', url: "https://youtu.be/KlxdWU0Gpy0", description: 'وصف الفيديو 14' },
+    { name: 'لو متعرفش حاجة في التكاثر فى الانسان إسمع ده- Level (1) سبورة تفاعية', url: "https://youtu.be/qUaLWWhcVFY", description: 'المعسكر - التكاثر' },
+    { name: 'لو متعرفش حاجة في التكاثر إسمع ده- Level (1) سبورة سنتر (تفاعل ناار من الطلبة)', url: "https://youtu.be/imNFfLwykkg", description: 'المعسكر - التكاثر' },
+    { name: 'الفيديو الأهم - زتونة التكاثر ما قبل الانسان Level (2)', url: "https://youtu.be/O9YqUj6F2OY", description: 'المعسكر - التكاثر' },
+    { name: 'الفيديو الأهم - زتونة التكاثر فى الانسان Level (2)', url: "https://youtu.be/r55Mlqk-VLM", description: 'المعسكر - التكاثر' },
+    { name: 'حل بنك اسئلة التكاثر - المعسكر', url: "https://youtu.be/K3IHq_aqmn8", description: 'المعسكر - التكاثر' },
+    { name: 'حل الاختبار الشامل - معسكر التكاثر', url: "https://youtu.be/RxzqOvVETvY", description: 'المعسكر - التكاثر' },
+    { name: 'حل أسئلة السنوات السابقة', url: "https://youtu.be/yvVM3sRvICE", description: 'المعسكر - التكاثر' }
+],
+                selectedVideo: null
+            },
+            methods: {
+                embedVideo(videoId) {
+                    return videoId ? `https://www.youtube.com/embed/${videoId}` : '';
+                },
+                getVideoId(videoUrl) {
+                    const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+                    const match = videoUrl.match(regex);
+                    return match ? match[1] : '';
+                },
+                openVideo(video) {
+                    this.selectedVideo = video;
+                    $('#videoModal').modal('show');
+                }
+            }
+        });
+    </script>
+</center>
+</body>
+
+</html>
